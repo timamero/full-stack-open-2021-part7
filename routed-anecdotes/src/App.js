@@ -4,10 +4,10 @@ import About from './components/About'
 import Footer from './components/Footer'
 import CreateNew from './components/CreateNew'
 import Menu from './components/Menu'
+import Anecdote from './components/Anecdote'
 
 import {
-  BrowserRouter as Router,
-  Switch, Route
+  Switch, Route, useRouteMatch
 } from 'react-router-dom'
 
 
@@ -50,12 +50,23 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
+  let matchAnecdote = useRouteMatch('/anecdotes/:id')
+  console.log('matched anecdote', matchAnecdote)
+  const anecdote = matchAnecdote
+    ? anecdotes.find(a => a.id === matchAnecdote.params.id)
+    : null
+  console.log('matched anecdote', anecdote)
+
   return (
-    <Router>
+
+    <div>
       <h1>Software anecdotes</h1>
       <Menu />
 
       <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote}/>
+        </Route>
         <Route path="/create">
           <CreateNew addNew={addNew} />
         </Route>
@@ -68,7 +79,7 @@ const App = () => {
       </Switch>
       
       <Footer />
-    </Router>
+    </div>
   )
 }
 
