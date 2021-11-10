@@ -1,22 +1,27 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
+import { useField } from '../hooks'
 
 const CreateNew = ({ addNew, showNotification }) => {
   const history = useHistory()
 
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  // const [content, setContent] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [info, setInfo] = useState('')
+
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
   const handleSubmit = (e) => {
     e.preventDefault()
     addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
-    showNotification(`A new anecdote '${content}' created!`)
+    showNotification(`A new anecdote '${content.value}' created!`)
     history.push('/')
   }
 
@@ -26,17 +31,17 @@ const CreateNew = ({ addNew, showNotification }) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' {...content} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' {...author} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' {...info} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   )
