@@ -5,10 +5,6 @@ import { useField } from '../hooks'
 const CreateNew = ({ addNew, showNotification }) => {
   const history = useHistory()
 
-  // const [content, setContent] = useState('')
-  // const [author, setAuthor] = useState('')
-  // const [info, setInfo] = useState('')
-
   const content = useField('text')
   const author = useField('text')
   const info = useField('text')
@@ -28,7 +24,7 @@ const CreateNew = ({ addNew, showNotification }) => {
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={() => {content.onReset(); author.onReset(); info.onReset()}}>
         <div>
           content
           <input name='content' {...content} />
@@ -42,6 +38,7 @@ const CreateNew = ({ addNew, showNotification }) => {
           <input name='info' {...info} />
         </div>
         <button type="submit">create</button>
+        <button type="reset">reset</button>
       </form>
     </div>
   )
