@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlZhbkIiLCJpZCI6IjYxMWVhNjM0OTEzMzhjMDk0YzllZGEzMSIsImlhdCI6MTYyOTgyNzY4NH0.zlYXkQCCys-qnWQl4gntIMlCLTfU8MSGbzFosBTSZlo
+
+{
+  "title": "Time Management for Programmers",
+  "author": "Alec",
+  "url": "https://dev.to/alecbsherman/time-management-for-programmers-ge3",
+  "likes": 1
+}
