@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { initializeBlogs, addBlog, deleteBlog } from './reducers/blogReducer'
 import Blog from './components/Blog'
 import CreateBlog from './components/CreateBlog'
 import Message from './components/Message'
@@ -7,7 +9,9 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const dispatch = useDispatch()
+  const blogs = useSelector(state => state)
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -40,7 +44,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      dispatch(initializeBlogs(blogs))
     )
   }, [])
 
@@ -94,7 +98,7 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
 
       const blog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(blog))
+      dispatch(addBlog(blog))
 
       setInfoMessage(`The blog ${blog.title} by ${blog.author} was added`)
       setTimeout(() => setInfoMessage(null), 3000)
@@ -110,7 +114,7 @@ const App = () => {
     try {
       await blogService.update(updatedBlog.id, updatedBlog)
       await blogService.getAll().then(blogs =>
-        setBlogs( blogs )
+        dispatch(initializeBlogs(blogs))
       )
       setInfoMessage(`Blog ${updatedBlog.title} was updated`)
       setTimeout(() => setInfoMessage(null), 3000)
@@ -124,7 +128,7 @@ const App = () => {
     if (window.confirm(`Remove blog ${title} by ${author}?`)) {
       try {
         await blogService.deleteObj(id)
-        setBlogs(blogs.filter(blog => blog.id !== id))
+        dispatch(deleteBlog(id))
         setInfoMessage('Removed blog')
         setTimeout(() => setInfoMessage(null), 3000)
       } catch (exceptions) {
