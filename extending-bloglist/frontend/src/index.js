@@ -1,11 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import App from './App'
 import blogReducer from './reducers/blogReducer'
+import userReducer from './reducers/userReducer'
 
-const store = createStore(blogReducer)
+const reducer = combineReducers({
+  blogs: blogReducer,
+  user: userReducer
+})
+const store = createStore(reducer)
 
 ReactDOM.render(
   <Provider store={store}>
