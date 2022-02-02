@@ -10,11 +10,12 @@ import loginService from './services/login'
 
 const App = () => {
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state)
+  const blogs = useSelector(state => state.blogs)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  console.log('user', user)
 
   const [errorMessage, setErrorMessage] = useState(null)
   const [infoMessage, setInfoMessage] = useState(null)
