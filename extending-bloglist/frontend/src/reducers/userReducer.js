@@ -1,8 +1,8 @@
-const userReducer = (state = [], action) => {
+const userReducer = (state = {}, action) => {
   switch(action.type) {
   case 'INIT_USER':
     console.log('initialize user', action.data.user)
-    return action.data.user
+    return { ...action.data.user }
   case 'LOGOUT_USER':
     return null
   default:
