@@ -7,15 +7,15 @@ import Message from './components/Message'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { initializeUser, logoutUser } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-  console.log('user', user)
 
   const [errorMessage, setErrorMessage] = useState(null)
   const [infoMessage, setInfoMessage] = useState(null)
@@ -54,7 +54,7 @@ const App = () => {
 
     if (loggedInUserJSON) {
       const user = JSON.parse(loggedInUserJSON)
-      setUser(user)
+      dispatch(initializeUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -68,7 +68,7 @@ const App = () => {
       window.localStorage.setItem('loggedInUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(initializeUser(user))
       setUsername('')
       setPassword('')
 
@@ -87,7 +87,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.clear()
 
-    setUser(null)
+    dispatch(logoutUser())
     blogService.setToken(null)
 
     setInfoMessage('Successfully logged out')
