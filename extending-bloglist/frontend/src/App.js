@@ -222,7 +222,7 @@ const App = () => {
           {blogsSortedByLikes && blogsSortedByLikes.map(blog =>
             <Blog
               key={blog.id}
-              blog={blog}
+              id={blog.id}
               userName={user.name}
               handleUpdateBlog={handleUpdateBlog}
               handleDeleteBlog={handleDeleteBlog}
