@@ -8,17 +8,18 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { initializeUser, logoutUser } from './reducers/userReducer'
+import { resetNotification, setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
+  const errorMessage = useSelector(state => state.notification.error)
+  const infoMessage = useSelector(state => state.notification.info)
+
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [infoMessage, setInfoMessage] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -72,15 +73,14 @@ const App = () => {
       setUsername('')
       setPassword('')
 
-      setInfoMessage('Successfully logged in')
-      setTimeout(() => setInfoMessage(null), 3000)
+      dispatch(setInfoMessage('Successfully logged in'))
+      setTimeout(() => dispatch(resetNotification()), 3000)
 
     } catch(error) {
       console.log('error: ', error)
 
-      setErrorMessage('The username or password you entered was incorrect')
-      setTimeout(() => setErrorMessage(null), 5000)
-
+      dispatch(setErrorMessage('The username or password you entered was incorrect'))
+      setTimeout(() => dispatch(resetNotification()), 5000)
     }
   }
 
@@ -90,8 +90,8 @@ const App = () => {
     dispatch(logoutUser())
     blogService.setToken(null)
 
-    setInfoMessage('Successfully logged out')
-    setTimeout(() => setInfoMessage(null), 3000)
+    dispatch(setInfoMessage('Successfully logged out'))
+    setTimeout(() => dispatch(resetNotification()), 3000)
   }
 
   const handleCreateBlog = async (blogObject) => {
@@ -101,12 +101,12 @@ const App = () => {
       const blog = await blogService.create(blogObject)
       dispatch(addBlog(blog))
 
-      setInfoMessage(`The blog ${blog.title} by ${blog.author} was added`)
-      setTimeout(() => setInfoMessage(null), 3000)
+      dispatch(setInfoMessage(`The blog ${blog.title} by ${blog.author} was added`))
+      setTimeout(() => dispatch(resetNotification()), 3000)
 
     } catch (exception) {
-      setErrorMessage('Blog was not added')
-      setTimeout(() => setErrorMessage(null), 3000)
+      dispatch(setErrorMessage('Blog was not added'))
+      setTimeout(() => dispatch(resetNotification()), 3000)
 
     }
   }
@@ -117,11 +117,11 @@ const App = () => {
       await blogService.getAll().then(blogs =>
         dispatch(initializeBlogs(blogs))
       )
-      setInfoMessage(`Blog ${updatedBlog.title} was updated`)
-      setTimeout(() => setInfoMessage(null), 3000)
+      dispatch(setInfoMessage(`Blog ${updatedBlog.title} was updated`))
+      setTimeout(() => dispatch(resetNotification()), 3000)
     } catch (exceptions) {
-      setErrorMessage('Blog not updated')
-      setTimeout(() => setErrorMessage(null), 3000)
+      dispatch(setErrorMessage('Blog not updated'))
+      setTimeout(() => dispatch(resetNotification()), 3000)
     }
   }
 
@@ -130,11 +130,11 @@ const App = () => {
       try {
         await blogService.deleteObj(id)
         dispatch(deleteBlog(id))
-        setInfoMessage('Removed blog')
-        setTimeout(() => setInfoMessage(null), 3000)
+        dispatch(setInfoMessage('Removed blog'))
+        setTimeout(() => dispatch(resetNotification()), 3000)
       } catch (exceptions) {
-        setErrorMessage('Blog not deleted')
-        setTimeout(() => setErrorMessage(null), 3000)
+        dispatch(setErrorMessage('Blog not deleted'))
+        setTimeout(() => dispatch(resetNotification()), 3000)
       }
     }
   }
