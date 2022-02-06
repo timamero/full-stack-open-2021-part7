@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs, addBlog, deleteBlog } from './reducers/blogReducer'
+import { initializeBlogs, createBlog, deleteBlog, updateBlogs } from './reducers/blogReducer'
 import Blog from './components/Blog'
 import CreateBlog from './components/CreateBlog'
 import Message from './components/Message'
@@ -45,9 +45,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      dispatch(initializeBlogs(blogs))
-    )
+    dispatch(initializeBlogs())
   }, [])
 
   useEffect(() => {
@@ -98,10 +96,9 @@ const App = () => {
     try {
       blogFormRef.current.toggleVisibility()
 
-      const blog = await blogService.create(blogObject)
-      dispatch(addBlog(blog))
+      dispatch(createBlog(blogObject))
 
-      dispatch(setInfoMessage(`The blog ${blog.title} by ${blog.author} was added`))
+      dispatch(setInfoMessage(`The blog ${blogObject.title} by ${blogObject.author} was added`))
       setTimeout(() => dispatch(resetNotification()), 3000)
 
     } catch (exception) {
@@ -113,10 +110,7 @@ const App = () => {
 
   const handleUpdateBlog = async (updatedBlog) => {
     try {
-      await blogService.update(updatedBlog.id, updatedBlog)
-      await blogService.getAll().then(blogs =>
-        dispatch(initializeBlogs(blogs))
-      )
+      dispatch(updateBlogs(updatedBlog))
       dispatch(setInfoMessage(`Blog ${updatedBlog.title} was updated`))
       setTimeout(() => dispatch(resetNotification()), 3000)
     } catch (exceptions) {
@@ -128,7 +122,6 @@ const App = () => {
   const handleDeleteBlog = async (id, title, author) => {
     if (window.confirm(`Remove blog ${title} by ${author}?`)) {
       try {
-        await blogService.deleteObj(id)
         dispatch(deleteBlog(id))
         dispatch(setInfoMessage('Removed blog'))
         setTimeout(() => dispatch(resetNotification()), 3000)
