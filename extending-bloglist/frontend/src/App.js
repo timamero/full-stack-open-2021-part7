@@ -8,7 +8,7 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { initializeUser, logoutUser } from './reducers/userReducer'
-import { resetNotification, setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
+import { setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -71,14 +71,12 @@ const App = () => {
       setUsername('')
       setPassword('')
 
-      dispatch(setInfoMessage('Successfully logged in'))
-      setTimeout(() => dispatch(resetNotification()), 3000)
+      dispatch(setInfoMessage('Successfully logged in', 10))
 
     } catch(error) {
       console.log('error: ', error)
 
-      dispatch(setErrorMessage('The username or password you entered was incorrect'))
-      setTimeout(() => dispatch(resetNotification()), 5000)
+      dispatch(setErrorMessage('The username or password you entered was incorrect', 10))
     }
   }
 
@@ -88,8 +86,7 @@ const App = () => {
     dispatch(logoutUser())
     blogService.setToken(null)
 
-    dispatch(setInfoMessage('Successfully logged out'))
-    setTimeout(() => dispatch(resetNotification()), 3000)
+    dispatch(setInfoMessage('Successfully logged out', 10))
   }
 
   const handleCreateBlog = async (blogObject) => {
@@ -98,24 +95,19 @@ const App = () => {
 
       dispatch(createBlog(blogObject))
 
-      dispatch(setInfoMessage(`The blog ${blogObject.title} by ${blogObject.author} was added`))
-      setTimeout(() => dispatch(resetNotification()), 3000)
+      dispatch(setInfoMessage(`The blog ${blogObject.title} by ${blogObject.author} was added`, 10))
 
     } catch (exception) {
-      dispatch(setErrorMessage('Blog was not added'))
-      setTimeout(() => dispatch(resetNotification()), 3000)
-
+      dispatch(setErrorMessage('Blog was not added', 10))
     }
   }
 
   const handleUpdateBlog = async (updatedBlog) => {
     try {
       dispatch(updateBlogs(updatedBlog))
-      dispatch(setInfoMessage(`Blog ${updatedBlog.title} was updated`))
-      setTimeout(() => dispatch(resetNotification()), 3000)
+      dispatch(setInfoMessage(`Blog ${updatedBlog.title} was updated`, 10))
     } catch (exceptions) {
-      dispatch(setErrorMessage('Blog not updated'))
-      setTimeout(() => dispatch(resetNotification()), 3000)
+      dispatch(setErrorMessage('Blog not updated', 10))
     }
   }
 
@@ -123,11 +115,9 @@ const App = () => {
     if (window.confirm(`Remove blog ${title} by ${author}?`)) {
       try {
         dispatch(deleteBlog(id))
-        dispatch(setInfoMessage('Removed blog'))
-        setTimeout(() => dispatch(resetNotification()), 3000)
+        dispatch(setInfoMessage('Removed blog', 10))
       } catch (exceptions) {
-        dispatch(setErrorMessage('Blog not deleted'))
-        setTimeout(() => dispatch(resetNotification()), 3000)
+        dispatch(setErrorMessage('Blog not deleted', 10))
       }
     }
   }

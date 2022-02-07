@@ -16,27 +16,36 @@ const notificationReducer = (state = initialState, action) => {
   }
 }
 
-export const setErrorMessage = (error) => {
-  return {
-    type: 'SET_ERROR',
-    data: {
-      error
-    }
-  }
-}
-
-export const setInfoMessage = (info) => {
-  return {
-    type: 'SET_INFO',
-    data: {
-      info
-    }
-  }
-}
-
 export const resetNotification = () => {
   return {
     type: 'RESET_NOTIFICATION'
+  }
+}
+
+let timeoutID
+export const setErrorMessage = (error, timeout) => {
+  return async dispatch => {
+    clearTimeout(timeoutID)
+    dispatch({
+      type: 'SET_ERROR',
+      data: {
+        error
+      }
+    })
+    timeoutID = setTimeout(() => dispatch(resetNotification()), timeout*1000)
+  }
+}
+
+export const setInfoMessage = (info, timeout) => {
+  return async dispatch => {
+    clearTimeout(timeoutID)
+    dispatch({
+      type: 'SET_INFO',
+      data: {
+        info
+      }
+    })
+    timeoutID = setTimeout(() => dispatch(resetNotification()), timeout*1000)
   }
 }
 
