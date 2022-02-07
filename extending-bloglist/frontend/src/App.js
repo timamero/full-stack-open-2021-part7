@@ -9,6 +9,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import { initializeUser, logoutUser } from './reducers/userReducer'
 import { setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
+import Login from './components/Login'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -16,7 +17,6 @@ const App = () => {
   const user = useSelector(state => state.user)
   const errorMessage = useSelector(state => state.notification.error)
   const infoMessage = useSelector(state => state.notification.info)
-
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -105,6 +105,7 @@ const App = () => {
   const handleUpdateBlog = async (updatedBlog) => {
     try {
       dispatch(updateBlogs(updatedBlog))
+
       dispatch(setInfoMessage(`Blog ${updatedBlog.title} was updated`, 10))
     } catch (exceptions) {
       dispatch(setErrorMessage('Blog not updated', 10))
@@ -115,6 +116,7 @@ const App = () => {
     if (window.confirm(`Remove blog ${title} by ${author}?`)) {
       try {
         dispatch(deleteBlog(id))
+
         dispatch(setInfoMessage('Removed blog', 10))
       } catch (exceptions) {
         dispatch(setErrorMessage('Blog not deleted', 10))
@@ -135,49 +137,27 @@ const App = () => {
 
   return (
     <div>
-      {!user
-        ?
-        <div>
-          <h2>Login In To Application</h2>
-          {errorMessage
+      {errorMessage
           && <Message
             className="error"
             message={errorMessage}
             style={errorMessageStyle}
           />
-          }
-          {infoMessage
+      }
+      {infoMessage
           && <Message
             message={infoMessage}
             style={infoMessageStyle}
           />
-          }
-          <form onSubmit={handleLoginSubmit}>
-            <div>
-              <label>
-              Username
-                <input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={({ target }) => setUsername(target.value)}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-              Password
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={({ target }) => setPassword(target.value)}
-                />
-              </label>
-            </div>
-            <input id="login-button" type="submit" value="login" />
-          </form>
-        </div>
+      }
+      {!user
+        ?
+        <Login
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          handleLoginSubmit={handleLoginSubmit} />
         :
         <div id="blogs">
           <h2>Blogs</h2>
