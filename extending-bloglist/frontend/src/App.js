@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs, createBlog, deleteBlog, updateBlogs } from './reducers/blogReducer'
-import Blog from './components/Blog'
-import CreateBlog from './components/CreateBlog'
 import Message from './components/Message'
-import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { initializeUser, logoutUser } from './reducers/userReducer'
 import { setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
 import Login from './components/Login'
+import BlogList from './components/BlogList'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -157,41 +155,17 @@ const App = () => {
           password={password}
           setUsername={setUsername}
           setPassword={setPassword}
-          handleLoginSubmit={handleLoginSubmit} />
+          handleLoginSubmit={handleLoginSubmit}
+        />
         :
-        <div id="blogs">
-          <h2>Blogs</h2>
-          {errorMessage
-          && <Message
-            className="error"
-            message={errorMessage}
-            style={errorMessageStyle}
-          />
-          }
-          {infoMessage
-          && <Message
-            message={infoMessage}
-            style={infoMessageStyle}
-          />
-          }
-          <p>{user.name} logged in</p>
-          <button onClick={handleLogout}>Logout</button>
-          <hr />
-          <Togglable buttonLabel="Create New Blog" ref={blogFormRef}>
-            <h2>Create New</h2>
-            <CreateBlog handleCreateBlog={handleCreateBlog}/>
-          </Togglable>
-          <hr />
-          {blogsSortedByLikes && blogsSortedByLikes.map(blog =>
-            <Blog
-              key={blog.id}
-              id={blog.id}
-              userName={user.name}
-              handleUpdateBlog={handleUpdateBlog}
-              handleDeleteBlog={handleDeleteBlog}
-            />
-          )}
-        </div>
+        <BlogList
+          blogs={blogsSortedByLikes}
+          blogFormRef={blogFormRef}
+          handleCreateBlog={handleCreateBlog}
+          handleUpdateBlog={handleUpdateBlog}
+          handleDeleteBlog={handleDeleteBlog}
+          handleLogout={handleLogout}
+        />
       }
     </div>
   )
