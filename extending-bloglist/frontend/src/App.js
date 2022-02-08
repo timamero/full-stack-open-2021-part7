@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
+import {
+  BrowserRouter as Router,
+  Switch, Route
+} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs, createBlog, deleteBlog, updateBlogs } from './reducers/blogReducer'
 import Message from './components/Message'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import usersService from './services/users'
 import { initializeUser, logoutUser } from './reducers/userReducer'
 import { setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
+import Users from './pages/Users'
+import { initializeUsers } from './reducers/usersReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -55,6 +62,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  useEffect(() => {
+    if (user) {
+      usersService.getAll()
+        .then(users => dispatch(initializeUsers(users)))
+    }
+  }, [user])
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault()
@@ -134,40 +148,48 @@ const App = () => {
   })
 
   return (
-    <div>
-      {errorMessage
+    <Router>
+      <Switch>
+        <Route path='/users'>
+          <Users />
+        </Route>
+      </Switch>
+      <div>
+        {errorMessage
           && <Message
             className="error"
             message={errorMessage}
             style={errorMessageStyle}
           />
-      }
-      {infoMessage
+        }
+        {infoMessage
           && <Message
             message={infoMessage}
             style={infoMessageStyle}
           />
-      }
-      {!user
-        ?
-        <Login
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          handleLoginSubmit={handleLoginSubmit}
-        />
-        :
-        <BlogList
-          blogs={blogsSortedByLikes}
-          blogFormRef={blogFormRef}
-          handleCreateBlog={handleCreateBlog}
-          handleUpdateBlog={handleUpdateBlog}
-          handleDeleteBlog={handleDeleteBlog}
-          handleLogout={handleLogout}
-        />
-      }
-    </div>
+        }
+        {!user
+          ?
+          <Login
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            handleLoginSubmit={handleLoginSubmit}
+          />
+          :
+          <BlogList
+            blogs={blogsSortedByLikes}
+            blogFormRef={blogFormRef}
+            handleCreateBlog={handleCreateBlog}
+            handleUpdateBlog={handleUpdateBlog}
+            handleDeleteBlog={handleDeleteBlog}
+            handleLogout={handleLogout}
+          />
+        }
+      </div>
+    </Router>
+
   )
 }
 
