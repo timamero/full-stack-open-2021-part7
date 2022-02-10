@@ -2,8 +2,6 @@ import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Login from '../components/Login'
 import BlogList from '../components/BlogList'
-import blogService from '../services/blogs'
-import { logoutUser } from '../reducers/userReducer'
 import { setInfoMessage, setErrorMessage } from '../reducers/notificationReducer'
 import { createBlog, updateBlogs, deleteBlog } from '../reducers/blogReducer'
 
@@ -13,15 +11,6 @@ const Home = () => {
   const blogs = useSelector(state => state.blogs)
 
   const blogFormRef = useRef()
-
-  const handleLogout = () => {
-    window.localStorage.clear()
-
-    dispatch(logoutUser())
-    blogService.setToken(null)
-
-    dispatch(setInfoMessage('Successfully logged out', 10))
-  }
 
   const handleCreateBlog = async (blogObject) => {
     try {
@@ -81,7 +70,6 @@ const Home = () => {
           handleCreateBlog={handleCreateBlog}
           handleUpdateBlog={handleUpdateBlog}
           handleDeleteBlog={handleDeleteBlog}
-          handleLogout={handleLogout}
         />
       }
     </div>

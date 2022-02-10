@@ -5,16 +5,16 @@ import Togglable from './Togglable'
 import CreateBlog from './CreateBlog'
 import Blog from './Blog'
 
-const BlogList = ({ blogs, blogFormRef, handleCreateBlog, handleUpdateBlog, handleDeleteBlog, handleLogout }) => {
+const BlogList = ({ blogs, blogFormRef, handleCreateBlog, handleUpdateBlog, handleDeleteBlog }) => {
   const user = useSelector(state => state.user)
 
 
   return (
     <div id="blogs">
-      <h2>Blogs</h2>
+      {/* <h2>Blogs</h2>
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>Logout</button>
-      <hr />
+      <hr /> */}
       <Togglable buttonLabel="Create New Blog" ref={blogFormRef}>
         <h2>Create New</h2>
         <CreateBlog handleCreateBlog={handleCreateBlog}/>

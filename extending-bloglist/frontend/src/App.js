@@ -10,6 +10,8 @@ import blogService from './services/blogs'
 import usersService from './services/users'
 import { initializeUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
+import { logoutUser } from './reducers/userReducer'
+import { setInfoMessage } from './reducers/notificationReducer'
 import Home from './pages/Home'
 import Users from './pages/Users'
 
@@ -61,6 +63,15 @@ const App = () => {
     }
   }, [user])
 
+  const handleLogout = () => {
+    window.localStorage.clear()
+
+    dispatch(logoutUser())
+    blogService.setToken(null)
+
+    dispatch(setInfoMessage('Successfully logged out', 10))
+  }
+
   return (
     <Router>
       {errorMessage
@@ -76,6 +87,12 @@ const App = () => {
             style={infoMessageStyle}
           />
       }
+      <div>
+        <h2>Blogs</h2>
+        <p>{user.name} logged in</p>
+        <button onClick={handleLogout}>Logout</button>
+        <hr />
+      </div>
       <Switch>
         <Route path='/users'>
           <Users />
