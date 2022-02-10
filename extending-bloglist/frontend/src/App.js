@@ -14,6 +14,7 @@ import { logoutUser } from './reducers/userReducer'
 import { setInfoMessage } from './reducers/notificationReducer'
 import Home from './pages/Home'
 import Users from './pages/Users'
+import User from './pages/User'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -94,10 +95,13 @@ const App = () => {
         <hr />
       </div>
       <Switch>
-        <Route path='/users'>
+        <Route exact path='/users'>
           <Users />
         </Route>
-        <Route path='/'>
+        <Route path='/users/:id'>
+          <User />
+        </Route>
+        <Route exact path='/'>
           <Home />
         </Route>
       </Switch>
