@@ -1,32 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch, Route
 } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs, createBlog, deleteBlog, updateBlogs } from './reducers/blogReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 import Message from './components/Message'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import usersService from './services/users'
-import { initializeUser, logoutUser } from './reducers/userReducer'
-import { setErrorMessage, setInfoMessage } from './reducers/notificationReducer'
-import Login from './components/Login'
-import BlogList from './components/BlogList'
-import Users from './pages/Users'
+import { initializeUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
+import Home from './pages/Home'
+import Users from './pages/Users'
 
 const App = () => {
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
   const errorMessage = useSelector(state => state.notification.error)
   const infoMessage = useSelector(state => state.notification.info)
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
-  const blogFormRef = useRef()
 
   const messageStyle = {
     borderRadius: 5,
@@ -70,124 +61,29 @@ const App = () => {
     }
   }, [user])
 
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault()
-
-    try {
-      const user = await loginService.login({ username, password })
-
-      window.localStorage.setItem('loggedInUser', JSON.stringify(user))
-
-      blogService.setToken(user.token)
-      dispatch(initializeUser(user))
-      setUsername('')
-      setPassword('')
-
-      dispatch(setInfoMessage('Successfully logged in', 10))
-
-    } catch(error) {
-      console.log('error: ', error)
-
-      dispatch(setErrorMessage('The username or password you entered was incorrect', 10))
-    }
-  }
-
-  const handleLogout = () => {
-    window.localStorage.clear()
-
-    dispatch(logoutUser())
-    blogService.setToken(null)
-
-    dispatch(setInfoMessage('Successfully logged out', 10))
-  }
-
-  const handleCreateBlog = async (blogObject) => {
-    try {
-      blogFormRef.current.toggleVisibility()
-
-      dispatch(createBlog(blogObject))
-
-      dispatch(setInfoMessage(`The blog ${blogObject.title} by ${blogObject.author} was added`, 10))
-
-    } catch (exception) {
-      dispatch(setErrorMessage('Blog was not added', 10))
-    }
-  }
-
-  const handleUpdateBlog = async (updatedBlog) => {
-    try {
-      dispatch(updateBlogs(updatedBlog))
-
-      dispatch(setInfoMessage(`Blog ${updatedBlog.title} was updated`, 10))
-    } catch (exceptions) {
-      dispatch(setErrorMessage('Blog not updated', 10))
-    }
-  }
-
-  const handleDeleteBlog = async (id, title, author) => {
-    if (window.confirm(`Remove blog ${title} by ${author}?`)) {
-      try {
-        dispatch(deleteBlog(id))
-
-        dispatch(setInfoMessage('Removed blog', 10))
-      } catch (exceptions) {
-        dispatch(setErrorMessage('Blog not deleted', 10))
-      }
-    }
-  }
-
-  // Sorted in descending order of number of likes
-  const blogsSortedByLikes = blogs.sort((a, b) => {
-    if (a.likes > b.likes) {
-      return -1
-    }
-    if (a.likes < b.likes) {
-      return 1
-    }
-    return 0
-  })
-
   return (
     <Router>
-      <Switch>
-        <Route path='/users'>
-          <Users />
-        </Route>
-      </Switch>
-      <div>
-        {errorMessage
+      {errorMessage
           && <Message
             className="error"
             message={errorMessage}
             style={errorMessageStyle}
           />
-        }
-        {infoMessage
+      }
+      {infoMessage
           && <Message
             message={infoMessage}
             style={infoMessageStyle}
           />
-        }
-        {!user
-          ?
-          <Login
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            handleLoginSubmit={handleLoginSubmit}
-          />
-          :
-          <BlogList
-            blogs={blogsSortedByLikes}
-            blogFormRef={blogFormRef}
-            handleCreateBlog={handleCreateBlog}
-            handleUpdateBlog={handleUpdateBlog}
-            handleDeleteBlog={handleDeleteBlog}
-            handleLogout={handleLogout}
-          />
-        }
-      </div>
+      }
+      <Switch>
+        <Route path='/users'>
+          <Users />
+        </Route>
+        <Route path='/'>
+          <Home />
+        </Route>
+      </Switch>
     </Router>
 
   )
