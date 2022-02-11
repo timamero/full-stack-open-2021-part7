@@ -15,6 +15,7 @@ import { setInfoMessage } from './reducers/notificationReducer'
 import Home from './pages/Home'
 import Users from './pages/Users'
 import User from './pages/User'
+import Blog from './pages/Blog'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -100,6 +101,9 @@ const App = () => {
         </Route>
         <Route path='/users/:id'>
           <User />
+        </Route>
+        <Route path='/blogs/:id'>
+          <Blog />
         </Route>
         <Route exact path='/'>
           <Home />

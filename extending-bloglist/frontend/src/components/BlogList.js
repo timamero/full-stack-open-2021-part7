@@ -1,33 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import Togglable from './Togglable'
 import CreateBlog from './CreateBlog'
-import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
-const BlogList = ({ blogs, blogFormRef, handleCreateBlog, handleUpdateBlog, handleDeleteBlog }) => {
-  const user = useSelector(state => state.user)
-
+const BlogList = ({ blogs, blogFormRef, handleCreateBlog }) => {
+  const blogStyle = {
+    display: 'block',
+    border: '1px solid black',
+    borderRadius: '0.2rem',
+    margin: '1rem 0',
+    padding: '0.5rem'
+  }
 
   return (
     <div id="blogs">
-      {/* <h2>Blogs</h2>
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>Logout</button>
-      <hr /> */}
       <Togglable buttonLabel="Create New Blog" ref={blogFormRef}>
         <h2>Create New</h2>
         <CreateBlog handleCreateBlog={handleCreateBlog}/>
       </Togglable>
       <hr />
       {blogs && blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          id={blog.id}
-          userName={user.name}
-          handleUpdateBlog={handleUpdateBlog}
-          handleDeleteBlog={handleDeleteBlog}
-        />
+        <Link key={blog.id} to={`/blogs/${blog.id}`} style={blogStyle}>{blog.title}</Link>
       )}
     </div>
   )
@@ -36,9 +30,6 @@ const BlogList = ({ blogs, blogFormRef, handleCreateBlog, handleUpdateBlog, hand
 BlogList.propTypes = {
   blogs: PropTypes.array,
   handleCreateBlog: PropTypes.func.isRequired,
-  handleUpdateBlog: PropTypes.func.isRequired,
-  handleDeleteBlog: PropTypes.func.isRequired,
-  handleLogout: PropTypes.func.isRequired,
 }
 
 export default BlogList
