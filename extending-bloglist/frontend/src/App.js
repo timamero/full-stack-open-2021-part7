@@ -82,7 +82,6 @@ const App = () => {
       }
       <div>
         <h2>Blog App</h2>
-        <hr />
       </div>
       <Switch>
         <Route exact path='/users'>

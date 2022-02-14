@@ -39,7 +39,6 @@ const BlogList = ({ blogs }) => {
         <h2>Create New</h2>
         <CreateBlog handleCreateBlog={handleCreateBlog}/>
       </Togglable>
-      <hr />
       {blogs && blogs.map(blog =>
         <Link key={blog.id} to={`/blogs/${blog.id}`} style={blogStyle}>{blog.title}</Link>
       )}
