@@ -1,41 +1,12 @@
-import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import Login from '../components/Login'
 import BlogList from '../components/BlogList'
-import { setInfoMessage, setErrorMessage } from '../reducers/notificationReducer'
-import { createBlog } from '../reducers/blogReducer'
 
 const Home = () => {
-  const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
 
-  const blogFormRef = useRef()
-
-  const handleCreateBlog = async (blogObject) => {
-    try {
-      blogFormRef.current.toggleVisibility()
-
-      dispatch(createBlog(blogObject))
-
-      dispatch(setInfoMessage(`The blog ${blogObject.title} by ${blogObject.author} was added`, 10))
-
-    } catch (exception) {
-      dispatch(setErrorMessage('Blog was not added', 10))
-    }
-  }
-
-  // const handleDeleteBlog = async (id, title, author) => {
-  //   if (window.confirm(`Remove blog ${title} by ${author}?`)) {
-  //     try {
-  //       dispatch(deleteBlog(id))
-
-  //       dispatch(setInfoMessage('Removed blog', 10))
-  //     } catch (exceptions) {
-  //       dispatch(setErrorMessage('Blog not deleted', 10))
-  //     }
-  //   }
-  // }
 
   // Sorted in descending order of number of likes
   const blogsSortedByLikes = blogs.sort((a, b) => {
@@ -56,9 +27,6 @@ const Home = () => {
         :
         <BlogList
           blogs={blogsSortedByLikes}
-          blogFormRef={blogFormRef}
-          handleCreateBlog={handleCreateBlog}
-          // handleDeleteBlog={handleDeleteBlog}
         />
       }
     </div>
