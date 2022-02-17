@@ -33,11 +33,17 @@ const deleteObj = async (id) => {
   return response.data
 }
 
+const createComment = async (id, comment) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, comment)
+  return response.data
+}
+
 const blogService = {
   getAll,
   create,
   update,
   deleteObj,
+  createComment,
   setToken
 }
 
