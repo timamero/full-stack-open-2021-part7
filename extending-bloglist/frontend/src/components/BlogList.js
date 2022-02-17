@@ -48,7 +48,6 @@ const BlogList = ({ blogs }) => {
 
 BlogList.propTypes = {
   blogs: PropTypes.array,
-  handleCreateBlog: PropTypes.func.isRequired,
 }
 
 export default BlogList
