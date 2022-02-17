@@ -4,6 +4,7 @@ import {
   Switch, Route
 } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { Container } from 'reactstrap'
 import { initializeBlogs } from './reducers/blogReducer'
 import Message from './components/Message'
 import blogService from './services/blogs'
@@ -66,37 +67,39 @@ const App = () => {
 
   return (
     <Router>
-      <Nav />
-      {errorMessage
+      <Container>
+        <Nav />
+        {errorMessage
           && <Message
             className="error"
             message={errorMessage}
             style={errorMessageStyle}
           />
-      }
-      {infoMessage
+        }
+        {infoMessage
           && <Message
             message={infoMessage}
             style={infoMessageStyle}
           />
-      }
-      <div>
-        <h2>Blog App</h2>
-      </div>
-      <Switch>
-        <Route exact path='/users'>
-          <Users />
-        </Route>
-        <Route path='/users/:id'>
-          <User />
-        </Route>
-        <Route path='/blogs/:id'>
-          <Blog />
-        </Route>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-      </Switch>
+        }
+        <div>
+          <h2>Blog App</h2>
+        </div>
+        <Switch>
+          <Route exact path='/users'>
+            <Users />
+          </Route>
+          <Route path='/users/:id'>
+            <User />
+          </Route>
+          <Route path='/blogs/:id'>
+            <Blog />
+          </Route>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+        </Switch>
+      </Container>
     </Router>
 
   )
