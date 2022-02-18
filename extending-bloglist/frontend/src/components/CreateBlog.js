@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
 
 const CreateBlog = ({ handleCreateBlog }) => {
   const [title, setTitle] = useState('')
@@ -15,42 +16,45 @@ const CreateBlog = ({ handleCreateBlog }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
+    <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Label>
           Title
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
+        </Label>
+        <Input
+          required
+          id="title"
+          type="text"
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>
           Author
-          <input
-            id="author"
-            type="text"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
+        </Label>
+        <Input
+          required
+          id="author"
+          type="text"
+          value={author}
+          onChange={({ target }) => setAuthor(target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>
           URL
-          <input
-            id="url"
-            type="text"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </label>
-      </div>
-      <input id="create-blog-button" type="submit" value="Create" />
-    </form>
+        </Label>
+        <Input
+          required
+          id="url"
+          type="text"
+          value={url}
+          onChange={({ target }) => setUrl(target.value)}
+        />
+      </FormGroup>
+      <Button id="create-blog-button" type="submit" value="Create">Create</Button>
+    </Form>
   )
 }
 
