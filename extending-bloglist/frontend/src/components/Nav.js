@@ -1,22 +1,18 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Nav as NavStrap, NavItem, NavLink, Button } from 'reactstrap'
 import blogService from '../services/blogs'
 import { logoutUser } from '../reducers/userReducer'
 import { setInfoMessage } from '../reducers/notificationReducer'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Nav = () => {
+  const location = useLocation()
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
 
   if (!user) {
     return null
-  }
-
-  const navStyle = {
-    display: 'flex',
-    flexDirection : 'row',
-    alignItems: 'center'
   }
 
   const handleLogout = () => {
@@ -29,12 +25,22 @@ const Nav = () => {
   }
 
   return (
-    <div style={navStyle}>
-      <Link to='/'>Blogs</Link>
-      <Link to='/users'>Users</Link>
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <NavStrap pills justified fill className='my-3'>
+      <NavItem>
+        <NavLink active={location.pathname === '/'} tag={Link} exact to='/'>
+          Blogs
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink active={location.pathname === '/users'} tag={Link} exact to='/users'>
+          Users
+          {/* <Link to='/users'>Users</Link> */}
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <Button outline onClick={handleLogout}>Logout</Button>
+      </NavItem>
+    </NavStrap>
   )
 }
 
