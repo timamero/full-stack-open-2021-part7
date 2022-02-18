@@ -16,6 +16,7 @@ import Users from './pages/Users'
 import User from './pages/User'
 import Blog from './pages/Blog'
 import Nav from './components/Nav'
+import Header from './components/Header'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -82,9 +83,7 @@ const App = () => {
             style={infoMessageStyle}
           />
         }
-        <div>
-          <h2>Blog App</h2>
-        </div>
+        <Header />
         <Switch>
           <Route exact path='/users'>
             <Users />
