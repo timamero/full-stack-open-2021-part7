@@ -10,7 +10,7 @@ const Header = () => {
   }
 
   return (
-    <Card>
+    <Card className='mb-2'>
       <CardBody>
         <CardTitle tag='h2'>
           Blog App
