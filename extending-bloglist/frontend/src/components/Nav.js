@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Nav as NavStrap, NavItem, NavLink, Button } from 'reactstrap'
 import blogService from '../services/blogs'
 import { logoutUser } from '../reducers/userReducer'
@@ -9,11 +9,6 @@ import { Link, useLocation } from 'react-router-dom'
 const Nav = () => {
   const location = useLocation()
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
-
-  if (!user) {
-    return null
-  }
 
   const handleLogout = () => {
     window.localStorage.clear()
@@ -34,7 +29,6 @@ const Nav = () => {
       <NavItem>
         <NavLink active={location.pathname === '/users'} tag={Link} exact to='/users'>
           Users
-          {/* <Link to='/users'>Users</Link> */}
         </NavLink>
       </NavItem>
       <NavItem>
