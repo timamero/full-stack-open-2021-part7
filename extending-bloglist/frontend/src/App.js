@@ -24,27 +24,6 @@ const App = () => {
   const errorMessage = useSelector(state => state.notification.error)
   const infoMessage = useSelector(state => state.notification.info)
 
-  const messageStyle = {
-    borderRadius: 5,
-    padding: 8,
-    marginTop: 16,
-    marginBottom: 16,
-    width: 'max-content',
-    fontSize: 20
-  }
-
-  const infoMessageStyle = {
-    ...messageStyle,
-    border: '2px solid #29A33B',
-    color: '#29A33B'
-  }
-
-  const errorMessageStyle = {
-    ...messageStyle,
-    border: '2px solid #A32929',
-    color: '#A32929'
-  }
-
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [])
@@ -74,13 +53,11 @@ const App = () => {
           && <Message
             className="error"
             message={errorMessage}
-            style={errorMessageStyle}
           />
         }
         {infoMessage
           && <Message
             message={infoMessage}
-            style={infoMessageStyle}
           />
         }
         <Header />

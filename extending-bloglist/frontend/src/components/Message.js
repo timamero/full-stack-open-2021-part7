@@ -1,8 +1,10 @@
 import React from 'react'
+import { Alert } from 'reactstrap'
 
-const Message = ({ message, style, className = '' }) => {
+const Message = ({ message, className = '' }) => {
+  const color = className === 'error' ? 'danger' : 'success'
   return (
-    <div style={style} className={className}>{message}</div>
+    <Alert className={className} color={color}>{message}</Alert>
   )
 }
 
