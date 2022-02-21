@@ -20,7 +20,7 @@ const Nav = () => {
   }
 
   return (
-    <NavStrap pills justified fill className='my-3'>
+    <NavStrap justified fill className='my-3'>
       <NavItem>
         <NavLink active={location.pathname === '/'} tag={Link} exact to='/'>
           Blogs
