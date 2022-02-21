@@ -53,7 +53,13 @@ const CreateBlog = ({ handleCreateBlog }) => {
           onChange={({ target }) => setUrl(target.value)}
         />
       </FormGroup>
-      <Button id="create-blog-button" type="submit" value="Create">Create</Button>
+      <Button
+        id="create-blog-button"
+        type="submit"
+        value="Create"
+        className="mb-1"
+        color="success"
+      >Create</Button>
     </Form>
   )
 }
