@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { initializeUser } from '../reducers/userReducer'
@@ -36,31 +37,37 @@ const Login = () => {
   return (
     <div>
       <h2>Login In To Application</h2>
-      <form onSubmit={handleLoginSubmit}>
-        <div>
-          <label>
+      <Form onSubmit={handleLoginSubmit}>
+        <FormGroup>
+          <Label>
               Username
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
+          </Label>
+          <Input
+            id="username"
+            type="text"
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>
               Password
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </label>
-        </div>
-        <input id="login-button" type="submit" value="login" />
-      </form>
+          </Label>
+          <Input
+            id="password"
+            type="password"
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </FormGroup>
+        <Button
+          id="login-button"
+          type="submit"
+          value="login"
+          className="mb-1"
+          color="primary"
+        >Login</Button>
+      </Form>
     </div>
   )
 }
