@@ -4,6 +4,20 @@ import { useParams } from 'react-router-dom'
 import blogService from '../services/blogs'
 import { updateBlogs, initializeBlogs } from '../reducers/blogReducer'
 import { setInfoMessage, setErrorMessage } from '../reducers/notificationReducer'
+import {
+  Card,
+  CardBody,
+  CardSubtitle,
+  CardTitle,
+  CardLink,
+  CardText,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  ListGroup,
+  ListGroupItem,
+  Badge } from 'reactstrap'
 
 const Blog = () => {
   const id = useParams().id
@@ -53,21 +67,44 @@ const Blog = () => {
 
   return (
     <div>
-      <h2>{blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a>
-      <div>
-        <span className="likes">likes: {likes}</span>{' '}
-        <button type="button" onClick={handleLikeClick}>Like</button>
-      </div>
-      <p>Added by {blog.user.name}</p>
-      <h3>Comments</h3>
-      <form onSubmit={handleCommentSubmit}>
-        <input type="text" value={comment} onChange={({ target }) => setComment(target.value)}/>
-        <button>Add Comment</button>
-      </form>
-      <ul>
-        {blog.comments.map(comment => <li key={comment.id}>{comment.content}</li>)}
-      </ul>
+      <Card>
+        <CardBody>
+          <CardTitle tag="h2">
+            {blog.title}
+          </CardTitle>
+          <CardSubtitle className="mb-2 text-muted">
+            <p>Added by {blog.user.name}</p>
+          </CardSubtitle>
+          <CardLink href={blog.url}>
+            {blog.url}
+          </CardLink>
+          <CardText className='mt-2'>
+            <Badge className="likes" color="dark">Likes: {likes}</Badge>{' '}
+            <Button
+              type="button"
+              onClick={handleLikeClick}
+              color="primary"
+              outline
+            >Like</Button>
+          </CardText>
+        </CardBody>
+      </Card>
+      <Card className='mt-2'>
+        <CardBody>
+          <CardTitle tag="h3">
+          Comments
+          </CardTitle>
+          <Form onSubmit={handleCommentSubmit}>
+            <FormGroup>
+              <Input type="text" value={comment} onChange={({ target }) => setComment(target.value)}/>
+            </FormGroup>
+            <Button color="primary" outline>Add Comment</Button>
+          </Form>
+          <ListGroup className='mt-4'>
+            {blog.comments.map(comment => <ListGroupItem key={comment.id}>{comment.content}</ListGroupItem>)}
+          </ListGroup>
+        </CardBody>
+      </Card>
     </div>
   )
 }
