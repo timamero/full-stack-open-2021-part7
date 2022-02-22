@@ -1,3 +1,4 @@
+// This component isn't used anymore.  Keep for reference
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
