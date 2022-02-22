@@ -22,12 +22,12 @@ const Nav = () => {
   return (
     <NavStrap justified fill className='my-3'>
       <NavItem>
-        <NavLink active={location.pathname === '/'} tag={Link} exact to='/'>
+        <NavLink active={location.pathname === '/'} tag={Link} exact="true" to='/'>
           Blogs
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink active={location.pathname === '/users'} tag={Link} exact to='/users'>
+        <NavLink active={location.pathname === '/users'} tag={Link} exact="true" to='/users'>
           Users
         </NavLink>
       </NavItem>

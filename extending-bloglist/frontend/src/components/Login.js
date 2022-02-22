@@ -21,12 +21,12 @@ const Login = () => {
       window.localStorage.setItem('loggedInUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
-      dispatch(initializeUser(user))
+
       setUsername('')
       setPassword('')
 
       dispatch(setInfoMessage('Successfully logged in', 10))
-
+      dispatch(initializeUser(user))
     } catch(error) {
       console.log('error: ', error)
 
