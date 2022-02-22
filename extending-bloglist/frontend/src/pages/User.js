@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Card, CardBody, CardSubtitle, CardTitle, List } from 'reactstrap'
+import { Card, CardBody, CardSubtitle, CardTitle, ListGroup, ListGroupItem } from 'reactstrap'
 
 const User = () => {
   const id = useParams().id
@@ -20,9 +20,9 @@ const User = () => {
         <CardSubtitle tag="h3" className="mb-2 text-muted">
           Added Blogs
         </CardSubtitle>
-        <List type="unstyled">
-          {user.blogs.map(blog => <li key={blog.id} className="py-1">{blog.title}</li>)}
-        </List>
+        <ListGroup flush>
+          {user.blogs.map(blog => <ListGroupItem key={blog.id} className="py-1">{blog.title}</ListGroupItem>)}
+        </ListGroup>
       </CardBody>
     </Card>
   )

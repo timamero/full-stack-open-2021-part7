@@ -75,18 +75,20 @@ const Blog = () => {
           <CardSubtitle className="mb-2 text-muted">
             <p>Added by {blog.user.name}</p>
           </CardSubtitle>
-          <CardLink href={blog.url}>
-            {blog.url}
-          </CardLink>
-          <CardText className='mt-2'>
-            <Badge className="likes" color="dark">Likes: {likes}</Badge>{' '}
-            <Button
-              type="button"
-              onClick={handleLikeClick}
-              color="primary"
-              outline
-            >Like</Button>
+          <CardText>
+            <Badge className="likes" color="dark">Likes: {likes}</Badge>
           </CardText>
+          <CardText>
+            <CardLink href={blog.url} target="_blank">
+              View Blog
+            </CardLink>
+          </CardText>
+          <Button
+            type="button"
+            onClick={handleLikeClick}
+            color="primary"
+            outline
+          >Like</Button>
         </CardBody>
       </Card>
       <Card className='mt-2'>
